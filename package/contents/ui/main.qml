@@ -9,30 +9,74 @@ PlasmoidItem {
   id: root
   preferredRepresentation: compactRepresentation
   fullRepresentation: ColumnLayout{
-    PlasmaComponents.TextField {
-      id: textToConvert
-      placeholderText: qsTr("Enter Text to Create ASCII Art Text")
+    RowLayout{
+      Layout.topMargin: 10
+      Layout.leftMargin: 10
+      Layout.rightMargin: 10
+      Layout.bottomMargin: 3
+
+      PlasmaComponents.Label {
+        text: "Text: "
+      }
+      PlasmaComponents.TextField {
+        id: textToConvert
+        placeholderText: qsTr("Enter Text to Create ASCII Art Text")
+      }
     }
+    
     PlasmaComponents.CheckBox {
+      Layout.leftMargin: 10
+      Layout.rightMargin: 10
+      Layout.bottomMargin: 3
+
       id: limitWidth
       checked: true
-      text: qsTr("Limit Width to 80 Characters")
+      text: qsTr("Limit Width")
     }
-    PlasmaComponents.ComboBox {
-      id: font
-      textRole: "text"
-      valueRole: "value"
-      model: [
-          { value: "small", text: i18n("small") },
-          { value: "big", text: i18n("big") },
-          { value: "calvin", text: i18n("Calvin S") },
-          { value: "smslant", text: i18n("Small Slant") },
-          { value: "slant", text: i18n("Slant") },
-      ]
+
+    RowLayout {
+      Layout.leftMargin: 10
+      Layout.rightMargin: 10
+      Layout.bottomMargin: 3
+
+      PlasmaComponents.Label {
+        text: "Font: "
+      }
+      PlasmaComponents.ComboBox {
+        id: font
+        textRole: "text"
+        valueRole: "value"
+        model: [
+            { value: "small", text: i18n("small") },
+            { value: "big", text: i18n("big") },
+            { value: "calvin", text: i18n("Calvin S") },
+            { value: "smslant", text: i18n("Small Slant") },
+            { value: "slant", text: i18n("Slant") },
+        ]
+      }
     }
-    PlasmaComponents.TextField {
-      id: startLinesWith
-      placeholderText: qsTr("Characters to add before each line")
+    
+    RowLayout {
+      Layout.leftMargin: 10
+      Layout.rightMargin: 10
+      Layout.bottomMargin: 3
+
+      PlasmaComponents.Label {
+        text: "Line Prefix Characters: "
+      }
+      PlasmaComponents.TextField {
+        id: startLinesWith
+        placeholderText: qsTr("Characters to add before each line")
+      }
+    }
+
+    PlasmaComponents.Button {
+      Layout.leftMargin: 10
+      Layout.rightMargin: 10
+      Layout.bottomMargin: 10
+
+      icon.name: "edit-copy"
+      text: i18n("Create and Copy to Clipboard")
     }
   }
 }
