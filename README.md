@@ -1,3 +1,6 @@
+# About
+This widget uses the command line utilty figlet to create ASCII art versions of text you enter.  The **Line Prefix Characters** option was added to easily use the ASCII art as comments for coding.
+
 # Requirements
 - KDE 6.0 + (tested on Arch with KDE 6.5.3)
 - package *figlet* (see package manager, should be called figlet in there)
@@ -23,9 +26,6 @@ systemctl --user restart plasma-plasmashell.service
   - Create the folder *FigletPlasma6*, enter into the folder
   - Edit > Paste the extracted folder *contents* and file *metadata.json*
   - Log out and Log back in, add the widget to your panel
-
-# About
-This widget uses the command line utilty figlet to create ASCII art versions of text you enter.  The **Line Prefix Characters** option was added to easily use the ASCII art as comments for coding.
 
 # Examples
 ## Result of: Line Prefix Characters: *none*  -  Text: ```Example```  -  Font: *Big*  -  Limit Width: *unchecked*
