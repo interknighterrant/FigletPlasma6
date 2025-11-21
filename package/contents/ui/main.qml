@@ -5,7 +5,7 @@ import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasma5support as Plasma5Support
 import org.kde.plasma.plasmoid
 import org.kde.kirigami as Kirigami
-import org.kde.kirigami.private as KirigamiPrivate                  
+import org.kde.kirigami.private as KirigamiPrivate
 
 PlasmoidItem {
   id: root
@@ -25,33 +25,53 @@ PlasmoidItem {
     Layout.preferredHeight: 180
 
     Plasma5Support.DataSource {
-    id: fontFileList
+      id: fontFileList
 
-    engine: "executable"
-    connectedSources: ["ls -t1 /usr/share/figlet/fonts/*.flf"]
+      engine: "executable"
+      connectedSources: ["ls -t1 /usr/share/figlet/fonts/*.flf"]
 
-    onNewData:function(source, data) {
-      var all_fonts = data.stdout.split("\n");
+      onNewData:function(source, data) {
+        var all_fonts = data.stdout.split("\n");
 
-      var array_of_options = [];
+        var array_of_options = [];
 
-      for( var i=0; i < all_fonts.length; i++ )
-      {
-        var this_font = all_fonts[i];
+        for( var i=0; i < all_fonts.length; i++ )
+        {
+          var this_font = all_fonts[i];
 
-        this_font = this_font.replace("/usr/share/figlet/fonts/","");
-        this_font = this_font.replace(".flf", "");
+          this_font = this_font.replace("/usr/share/figlet/fonts/","");
+          this_font = this_font.replace(".flf", "");
 
-        var this_label = capitalizeFirstLetter( this_font );
+          var this_label = capitalizeFirstLetter( this_font );
 
-        if ( this_font.length > 0 ) {
-          array_of_options.push( { value: this_font.toString(), text: this_label.toString() } );
+          if ( this_font.length > 0 ) {
+            array_of_options.push( { value: this_font.toString(), text: this_label.toString() } );
+          }
         }
-      }
 
-      font.model = array_of_options;
+        font.model = array_of_options;
+      }
     }
-  }
+
+    // Send notification
+    Plasma5Support.DataSource {
+      id: notificationSource
+      engine: "notifications"
+      connectedSources: "org.freedesktop.Notifications"
+    }
+
+    function createNotification() {
+      var service = notificationSource.serviceForSource("notification");
+      var operation = service.operationDescription("createNotification");
+
+      operation.appName = i18n("Figlet to Clipboard");
+      operation["appIcon"] = "insert-text-frame";
+      operation.summary = i18n("Copied to Clipboard")
+      operation["body"] = "ASCII art of your text has been copied into your clipboard.  Use Ctrl+V or menu options to paste it somewhere.";
+      operation["timeout"] = 1500;
+
+      service.startOperationCall(operation);
+    }
 
     Plasma5Support.DataSource {
       id: figlet
@@ -68,6 +88,15 @@ PlasmoidItem {
         console.log( final_output );
 
         disconnectSource(source);
+
+        // Send notification
+        createNotification();
+
+        // Reset widget
+        limitWidth.checked = false;
+        font.currentIndex = 0;
+        textToConvert.text = "";
+        plasmoid.expanded = false;
       }
       
       function convert() {
