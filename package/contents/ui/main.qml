@@ -96,7 +96,7 @@ PlasmoidItem {
         limitWidth.checked = false;
         font.currentIndex = 0;
         textToConvert.text = "";
-        plasmoid.expanded = false;
+        startLinesWith.text = "";
       }
       
       function convert() {
@@ -188,7 +188,10 @@ PlasmoidItem {
         icon.name: "edit-copy"
         text: i18n("Create and Copy to Clipboard")
 
-        onClicked: figlet.convert();
+        onClicked: {
+          figlet.convert();
+          expanded = false;
+        }
       }
     }
   }
