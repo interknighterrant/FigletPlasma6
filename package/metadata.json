@@ -11,7 +11,7 @@
         "Icon": "insert-text-frame",
         "Id": "com.github.interknighterrant.plasmoid-6-figlet",
         "Name": "Figlet to Clipboard",
-        "Version": "0.9",
+        "Version": "1.0",
         "Website": "https://github.com/interknighterrant/FigletPlasma6",
         "BugReportUrl": "https://github.com/interknighterrant/FigletPlasma6/issues"
     },

@@ -14,8 +14,42 @@ PlasmoidItem {
   fullRepresentation: Item {
     id: fullRepItem
 
+    function capitalizeFirstLetter(string) {
+      if (string.length === 0) {
+        return string;
+      }
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     Layout.preferredWidth: 300
     Layout.preferredHeight: 180
+
+    Plasma5Support.DataSource {
+    id: fontFileList
+
+    engine: "executable"
+    connectedSources: ["ls -t1 /usr/share/figlet/fonts/*.flf"]
+
+    onNewData:function(source, data) {
+      var all_fonts = data.stdout.split("\n");
+
+      var array_of_options = [];
+
+      for( var i=0; i < all_fonts.length; i++ )
+      {
+        var this_font = all_fonts[i];
+
+        this_font = this_font.replace("/usr/share/figlet/fonts/","");
+        this_font = this_font.replace(".flf", "");
+
+        var this_label = capitalizeFirstLetter( this_font );
+
+        array_of_options.push( { value: this_font.toString(), text: this_label.toString() } );
+      }
+
+      font.model = array_of_options;
+    }
+  }
 
     Plasma5Support.DataSource {
       id: figlet
@@ -93,10 +127,7 @@ PlasmoidItem {
           valueRole: "value"
           model: [
               { value: "small", text: i18n("small") },
-              { value: "big", text: i18n("big") },
-              { value: "calvin", text: i18n("Calvin S") },
-              { value: "smslant", text: i18n("Small Slant") },
-              { value: "slant", text: i18n("Slant") },
+              { value: "big", text: i18n("big") }
           ]
         }
       }
