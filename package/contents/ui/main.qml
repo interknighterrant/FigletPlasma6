@@ -5,9 +5,7 @@ import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasma5support as Plasma5Support
 import org.kde.plasma.plasmoid
 import org.kde.kirigami as Kirigami
-import org.kde.kirigami.private as KirigamiPrivate
-
-
+import org.kde.kirigami.private as KirigamiPrivate                  
 
 PlasmoidItem {
   id: root
@@ -16,6 +14,9 @@ PlasmoidItem {
   fullRepresentation: Item {
     id: fullRepItem
 
+    Layout.preferredWidth: 300
+    Layout.preferredHeight: 180
+
     Plasma5Support.DataSource {
       id: figlet
       engine: "executable"
@@ -23,6 +24,7 @@ PlasmoidItem {
 
       onNewData: function(source, data) {
         var all_lines = data.stdout.split(/\r?\n|\r/);
+        all_lines.pop(); // Remove empty line at end of string
         var final_output = startLinesWith.text + all_lines.join("\n" + startLinesWith.text);
 
         KirigamiPrivate.CopyHelperPrivate.copyTextToClipboard( final_output );
@@ -47,15 +49,18 @@ PlasmoidItem {
     ColumnLayout{
       RowLayout{
         Layout.topMargin: 10
-        Layout.leftMargin: 10
-        Layout.rightMargin: 10
         Layout.bottomMargin: 3
+        Layout.fillWidth: true
 
         PlasmaComponents.Label {
+          Layout.leftMargin: 10
+          Layout.preferredWidth: 80
           text: "Text: "
         }
         PlasmaComponents.TextField {
           id: textToConvert
+          Layout.rightMargin: 10
+          Layout.fillWidth: true
           placeholderText: qsTr("Enter Text to Create ASCII Art Text")
         }
       }
@@ -71,15 +76,19 @@ PlasmoidItem {
       }
 
       RowLayout {
-        Layout.leftMargin: 10
-        Layout.rightMargin: 10
         Layout.bottomMargin: 3
+        Layout.fillWidth: true
 
         PlasmaComponents.Label {
           text: "Font: "
+
+          Layout.leftMargin: 10
+          Layout.preferredWidth: 80
         }
         PlasmaComponents.ComboBox {
           id: font
+          Layout.rightMargin: 10
+          Layout.fillWidth: true
           textRole: "text"
           valueRole: "value"
           model: [
@@ -93,16 +102,19 @@ PlasmoidItem {
       }
       
       RowLayout {
-        Layout.leftMargin: 10
-        Layout.rightMargin: 10
         Layout.bottomMargin: 3
+        Layout.fillWidth: true
 
         PlasmaComponents.Label {
           text: "Line Prefix Characters: "
+          Layout.leftMargin: 10
+          Layout.preferredWidth: 180
         }
         PlasmaComponents.TextField {
           id: startLinesWith
-          placeholderText: qsTr("Characters to add before each line")
+          Layout.rightMargin: 10
+          Layout.fillWidth: true
+          placeholderText: qsTr("Character(s)")
         }
       }
 
