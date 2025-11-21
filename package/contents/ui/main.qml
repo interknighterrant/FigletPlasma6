@@ -33,7 +33,12 @@ PlasmoidItem {
       }
       
       function convert() {
-        var command = "figlet -t -f " + font.currentValue + " " + textToConvert.text;
+        var limitWidthFlag = "-t";
+        if ( limitWidth.checked ) { limitWidthFlag = ''; }
+
+        var command = "figlet " + limitWidthFlag + " -f " + font.currentValue + " " + textToConvert.text;
+
+        console.log( command );
 
         connectSource( command );
       }
