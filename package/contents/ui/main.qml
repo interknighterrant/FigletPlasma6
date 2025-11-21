@@ -44,7 +44,9 @@ PlasmoidItem {
 
         var this_label = capitalizeFirstLetter( this_font );
 
-        array_of_options.push( { value: this_font.toString(), text: this_label.toString() } );
+        if ( this_font.length > 0 ) {
+          array_of_options.push( { value: this_font.toString(), text: this_label.toString() } );
+        }
       }
 
       font.model = array_of_options;
@@ -81,8 +83,25 @@ PlasmoidItem {
     }
 
     ColumnLayout{
-      RowLayout{
+      RowLayout {
         Layout.topMargin: 10
+        Layout.bottomMargin: 3
+        Layout.fillWidth: true
+
+        PlasmaComponents.Label {
+          text: "Line Prefix Characters: "
+          Layout.leftMargin: 10
+          Layout.preferredWidth: 180
+        }
+        PlasmaComponents.TextField {
+          id: startLinesWith
+          Layout.rightMargin: 10
+          Layout.fillWidth: true
+          placeholderText: qsTr("Character(s)")
+        }
+      }
+
+      RowLayout{
         Layout.bottomMargin: 3
         Layout.fillWidth: true
 
@@ -97,16 +116,6 @@ PlasmoidItem {
           Layout.fillWidth: true
           placeholderText: qsTr("Enter Text to Create ASCII Art Text")
         }
-      }
-      
-      PlasmaComponents.CheckBox {
-        Layout.leftMargin: 10
-        Layout.rightMargin: 10
-        Layout.bottomMargin: 3
-
-        id: limitWidth
-        checked: true
-        text: qsTr("Limit Width")
       }
 
       RowLayout {
@@ -131,22 +140,15 @@ PlasmoidItem {
           ]
         }
       }
-      
-      RowLayout {
-        Layout.bottomMargin: 3
-        Layout.fillWidth: true
 
-        PlasmaComponents.Label {
-          text: "Line Prefix Characters: "
-          Layout.leftMargin: 10
-          Layout.preferredWidth: 180
-        }
-        PlasmaComponents.TextField {
-          id: startLinesWith
-          Layout.rightMargin: 10
-          Layout.fillWidth: true
-          placeholderText: qsTr("Character(s)")
-        }
+      PlasmaComponents.CheckBox {
+        Layout.leftMargin: 10
+        Layout.rightMargin: 10
+        Layout.bottomMargin: 10
+
+        id: limitWidth
+        checked: false
+        text: qsTr("Limit Width")
       }
 
       PlasmaComponents.Button {
